@@ -1,5 +1,7 @@
 ## Erin?
 
+![Erin's avatar](http://i63.tinypic.com/vnp3j7.png "Erin's avatar")
+
 Erin is the [UK Dynasty league](http://www.ukdynasty.com)'s GroupMe chat bot, providing information, initially about rookie draft picks, to the league group chat and by direct message.
 
 ## Who's it for? Can I use Erin for my own league's GroupMe chat?
