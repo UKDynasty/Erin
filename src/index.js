@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bot = require("./bot");
+const uuidV1 = require('uuid/v1');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(function (req, res) {
+    const uuid = uuidV1();
     if (!req.body.group_id && !req.body.sender_id && !req.body.text) {
         res.json({
             status: "error",
@@ -34,6 +36,11 @@ app.use(function (req, res) {
             });
             return;
         }
+        console.log({
+            uuid: uuid,
+            type: "receivedGroupMessage",
+            payload: req.body
+        });
         bot.processMessage(req.body.text)
             .then((responseParameters) => {
                 return bot.generateResponse(responseParameters);
@@ -48,9 +55,18 @@ app.use(function (req, res) {
                 });
             })
             .catch((err) => {
-                console.log(err);
+                console.log({
+                    uuid: uuid,
+                    type: "error",
+                    error: err
+                });
             });
     } else {
+        console.log({
+            uuid: uuid,
+            type: "receivedDirectMessage",
+            payload: req.body
+        });
         bot.processMessage(req.body.text)
             .then((responseParameters) => {
                 return bot.generateResponse(responseParameters);
@@ -65,7 +81,11 @@ app.use(function (req, res) {
                 });
             })
             .catch((err) => {
-                console.log(err);
+                console.log({
+                    uuid: uuid,
+                    type: "error",
+                    error: err
+                });
             });
     }
 
