@@ -24,6 +24,13 @@ const processMessage = (message, conversationId) => {
         }
         else if (message.match(/picks\s/i)) {
             return identifyFranchiseFromMessage(message)
+                .then((franchiseIdentificationArray) => {
+                    if (franchiseIdentificationArray.length > 1) {
+                        throw new Error();
+                    } else {
+                        return franchiseIdentificationArray[0];
+                    }
+                })
                 .then((franchiseName) => {
                     return picks.picksForFranchise(franchiseName);
                 })

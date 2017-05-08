@@ -1,50 +1,50 @@
 module.exports = [
     {
         canonical: "Oxford Seahawks",
-        uniqueIdentifiers: ["seahawks"]
+        identifiers: ["oxford", "seahawks"]
     },
     {
         canonical: "Bradford Championz",
-        uniqueIdentifiers: ["bradford", "championz"]
+        identifiers: ["bradford", "championz"]
     },
     {
         canonical: "Gateshead Spartans",
-        uniqueIdentifiers: ["gateshead", "spartans"]
+        identifiers: ["gateshead", "spartans"]
     },
     {
         canonical: "Nottingham Bandits",
-        uniqueIdentifiers: ["nottingham", "bandits"]
+        identifiers: ["nottingham", "bandits"]
     },
     {
         canonical: "Irish Flyers",
-        uniqueIdentifiers: ["irish", "flyers"]
+        identifiers: ["irish", "flyers"]
     },
     {
         canonical: "Wigan Wombats",
-        uniqueIdentifiers: ["wigan", "wombats"]
+        identifiers: ["wigan", "wombats"]
     },
     {
         canonical: "Derby Otters",
-        uniqueIdentifiers: ["derby", "otters"]
+        identifiers: ["derby", "otters"]
     },
     {
         canonical: "Hereford Chargers",
-        uniqueIdentifiers: ["hereford", "chargers"]
+        identifiers: ["hereford", "chargers"]
     },
     {
         canonical: "Coventry Eagles",
-        uniqueIdentifiers: ["coventry", "eagles"]
+        identifiers: ["coventry", "eagles"]
     },
     {
         canonical: "Oxford Pythons",
-        uniqueIdentifiers: ["pythons", "johnnies"]
+        identifiers: ["oxford", "pythons", "johnnies"]
     },
     {
         canonical: "Andover Sandslashers",
-        uniqueIdentifiers: ["andover", "sandslashers"]
+        identifiers: ["andover", "sandslashers"]
     },
     {
         canonical: "Chippenham Packers",
-        uniqueIdentifiers: ["chippenham", "packers"]
+        identifiers: ["chippenham", "packers"]
     }
 ];

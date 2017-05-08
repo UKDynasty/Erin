@@ -8,18 +8,25 @@ const erinUtils = {
         return new Promise((resolve, reject) => {
             const tokenizer = new natural.WordTokenizer();
             const tokenisedMessage = tokenizer.tokenize(message);
+            let matches = [];
             each(
                 franchises,
                 (franchise, callback) => {
-                    let intersection = tokenisedMessage.filter(x => franchise.uniqueIdentifiers.includes(x.toLowerCase()));
+                    let intersection = tokenisedMessage.filter(x => franchise.identifiers.includes(x.toLowerCase()));
                     if (intersection.length > 0) {
-                        return resolve(franchise.canonical);
+                        matches.push(franchise.canonical);
                     }
                     callback();
                 },
                 (err) => {
                     if (err) {
                         return reject();
+                    } else {
+                        if (matches.length > 0) {
+                            return resolve(matches);
+                        } else {
+                            return reject();
+                        }
                     }
                 });
         })
