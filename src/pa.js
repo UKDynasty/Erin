@@ -67,7 +67,7 @@ const pa = {
             console.log(conversationId, "No action necessary, message received came from Erin herself.");
             return;
         }
-        if (!message.text.match(/^erin/i) && !message.text.match(/erin\?$/i)) {
+        if (!message.text.match(/^erin/i) && !message.text.match(/erin\??$/i)) {
             console.log(conversationId, "No action taken, we don't think we were the intended recipient of the message from the group.");
             return;
         }
