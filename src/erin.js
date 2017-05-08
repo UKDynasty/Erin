@@ -54,6 +54,11 @@ const processMessage = (message, conversationId) => {
                 type: "help"
             };
             resolve(parameters, conversationId);
+        }  else if (message.match(/love you|like you/i)) {
+            let parameters = {
+                type: "love"
+            };
+            resolve(parameters, conversationId);
         } else {
             let parameters = {
                 type: "confusion"
@@ -107,6 +112,13 @@ const generateResponse = (parameters) => {
             ];
             return pickConfusionResponses[Math.floor(Math.random()*pickConfusionResponses.length)];
             break;
+        case "love":
+            const loveResponses = [
+                "Aw, shucks. Thanks. I guess I like you a bit, too.",
+                "I'm not actually that keen on getting close to people, especially fantasy football degenerates. I've been down that road before.",
+                "Well, thanks. I like you, in your own special way."
+            ];
+            return loveResponses[Math.floor(Math.random()*loveResponses.length)];
         case "confusion":
             const confusionResponses = [
                 "I'm sorry, I don't know what you're asking me.",
