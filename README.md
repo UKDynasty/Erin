@@ -16,17 +16,17 @@ The app depends on having access to the following environment variables, to avoi
 
 - GROUPCHAT_BOT_ID: the GroupMe bot ID of the bot that's registered to the league chat.
 - GROUPCHAT_BOT_NAME: the GroupMe bot name of the bot that's registered to the league chat. Important this is right! Stops infinite loops where the bot responds to itself.
-- GROUPCHAT_BOT_GROUP_ID: the GroupMe group ID of the league chat group to which the bot is registered. Deprecated here, as not used in the code.
-
 - DM_USER_ACCESS_TOKEN: the user account access token for the GroupMe bot USER, not bot. This allows the app to send direct messages as the user instead of just posting as a bot to a single group.
 
-Set environment variables either on the command line by editing `.env.local` and running `source .env.local`, or setting them as config variables if running on Heroku.
+Set environment variables for local testing on Heroku (`heroku local`) by renaming `.env.local` to `.env` and setting the values.
+
+`source .env` for non-Heroku testing.
 
 ## Run
 
 `node ./src/index.js`
 
-The app is laid out with one-click deployment to Heroku in mind.
+The app is laid out with deployment to Heroku in mind.
 
 ## What can I ask?
 
