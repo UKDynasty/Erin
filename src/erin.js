@@ -48,8 +48,7 @@ const processMessage = (message, conversationId) => {
                     };
                     resolve(parameters, conversationId);
                 });
-        }
-        else if (message.match(/help/i)) {
+        } else if (message.match(/help/i)) {
             let parameters = {
                 type: "help"
             };
@@ -62,6 +61,11 @@ const processMessage = (message, conversationId) => {
         }  else if (message.match(/hello|hey|good morning|good afternoon|good evening/i)) {
             let parameters = {
                 type: "greeting"
+            };
+            resolve(parameters, conversationId);
+        }  else if (message.match(/titan'?s mascot/i)) {
+            let parameters = {
+                type: "bucs-mascot"
             };
             resolve(parameters, conversationId);
         } else {
@@ -131,6 +135,8 @@ const generateResponse = (parameters) => {
                 "G'day."
             ];
             return greetingResponses[Math.floor(Math.random()*greetingResponses.length)];
+        case "bucs-mascot":
+            return "It's a raccoon, you stupid bitch. T-Rac.";
         case "confusion":
             const confusionResponses = [
                 "I'm sorry, I don't know what you're asking me.",
