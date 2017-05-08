@@ -18,7 +18,9 @@ const erinUtils = {
                     callback();
                 },
                 (err) => {
-
+                    if (err) {
+                        return reject();
+                    }
                 });
         })
     },

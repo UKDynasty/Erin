@@ -58,7 +58,10 @@ const picks = {
                                         if (err) {
                                             return reject(err);
                                         } else {
-                                            return resolve(picks);
+                                            return resolve({
+                                                franchiseName: franchise,
+                                                picks: picks
+                                            });
                                         }
                                     });
 

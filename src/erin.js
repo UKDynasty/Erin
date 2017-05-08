@@ -4,7 +4,7 @@ const identifyFranchiseFromMessage = require("./erinUtils").identifyFranchiseFro
 
 const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
-        if (message.match(/pick \d*\.\d*/)) {
+        if (message.match(/pick\s/i)) {
             let pickString = message.match(/(\d*)\.(\d*)/);
             let pick = ((pickString[1] - 1) * 12) + parseInt(pickString[2], 10);
             return picks.whoOwnsPick(pick)
@@ -16,21 +16,31 @@ const processMessage = (message, conversationId) => {
                     return resolve(parameters, conversationId);
                 })
                 .catch((err) => {
-                    return reject(err, conversationId);
+                    let parameters = {
+                        type: "pickConfusion"
+                    };
+                    resolve(parameters, conversationId);
                 });
         }
-        else if (message.match(/picks/i)) {
+        else if (message.match(/picks\s/i)) {
             return identifyFranchiseFromMessage(message)
                 .then((franchiseName) => {
                     return picks.picksForFranchise(franchiseName);
                 })
-                .then((picks) => {
+                .then((picksData) => {
                     let parameters = {
                         type: "picks",
-                        picks: picks
+                        picks: picksData.picks,
+                        franchiseName: picksData.franchiseName
                     };
                     resolve(parameters, conversationId);
                 })
+                .catch((err) => {
+                    let parameters = {
+                        type: "picksConfusion"
+                    };
+                    resolve(parameters, conversationId);
+                });
         }
         else if (message.match(/help/i)) {
             let parameters = {
@@ -59,10 +69,15 @@ const generateResponse = (parameters) => {
             return pickResponses[Math.floor(Math.random()*pickResponses.length)];
             break;
         case "picks":
-            if (!parameters.picks) {
+            if (!parameters.picks || !parameters.franchiseName) {
                 return new Error("Must pass franchiseName and picks in parameters.");
             }
-            return "Sure. Here are the picks currently owned by them: " + parameters.picks.join(", ");
+            const concatenatedPickText = parameters.picks.join(", ");
+            const picksResponses = [
+                "Here are the picks currently owned by the " + parameters.franchiseName + ": " + concatenatedPickText + ".",
+                "The picks currently owned by the " + parameters.franchiseName + " are as follows: " + concatenatedPickText + "."
+            ];
+            return picksResponses[Math.floor(Math.random()*picksResponses.length)];
             break;
         case "help":
             const helpResponses = [
@@ -71,13 +86,27 @@ const generateResponse = (parameters) => {
             ];
             return helpResponses[Math.floor(Math.random()*helpResponses.length)];
             break;
+        case "picksConfusion":
+            const picksConfusionResponses = [
+                "I'm not sure which franchise you're asking about. I'm not a mind reader!",
+                "Sorry, I don't know which franchise you're asking about. I could guess, but that would be less than useful."
+            ];
+            return picksConfusionResponses[Math.floor(Math.random()*picksConfusionResponses.length)];
+            break;
+        case "pickConfusion":
+            const pickConfusionResponses = [
+                "You're asking me who owns a pick? Sorry, I don't quite understand, sorry. Make sure you tell me the pick like this: '2.06' or '3.11'",
+                "I don't quite know what you mean, but I know you want to know about a pick. Maybe I'm telepathic."
+            ];
+            return pickConfusionResponses[Math.floor(Math.random()*pickConfusionResponses.length)];
+            break;
         case "confusion":
             const confusionResponses = [
-                "I'm sorry, I don't know what you're asking me. Do ask for help!",
+                "I'm sorry, I don't know what you're asking me.",
                 "Apologies, I've got no idea what you're talking about. Ask for help if you're stuck.",
                 "Pardon? I really don't know what you mean, sorry."
             ];
-            return
+            return confusionResponses[Math.floor(Math.random()*confusionResponses.length)];
             break;
     }
 };
