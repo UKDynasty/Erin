@@ -1,94 +1,58 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const bot = require("./bot");
 const uuidV1 = require('uuid/v1');
+const pa = require("./pa");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(function (req, res) {
-    const uuid = uuidV1();
+app.post("/talk", (req, res) => {
+    if (!req.body.text) {
+        res.json({
+            status: "error",
+            error: "No 'text' key in request"
+        });
+    } else {
+        const conversationId = uuidV1();
+        pa.receiveMessage(req.body.text, conversationId)
+            .then((erinResponse) => {
+                res.json(erinResponse);
+            })
+    }
+});
+
+app.post("/talk/group", (req, res) => {
     if (!req.body.group_id && !req.body.sender_id && !req.body.text) {
         res.json({
             status: "error",
-            message: "No group_id or text or sender_id in request body. Is this a GroupMe message payload?"
+            error: "No group_id or text or sender_id in request body. Is this a GroupMe message payload?"
         });
-        return;
-    }
-    if (req.body.name && req.body.name === process.env.GROUPCHAT_BOT_NAME) {
+    } else {
+        const conversationId = uuidV1();
+        pa.receiveGroupMessage(req.body, conversationId);
         res.json({
             status: "success",
-            action: "none",
-            message: "No action taken, message was posted by the bot itself."
+            conversationId: conversationId
         });
-        return;
     }
-    // We need to work out if the message is from the registered group of the bot (so reply to the group), or a DM (reply directly to user)
-    if (req.body.group_id === process.env.GROUPCHAT_BOT_GROUP_ID) {
-        // It's a message on the group chat and it's not a message from the bot itself
-        if (!req.body.text.match(/^erin/i) && !req.body.text.match(/erin\?$/i)) {
-            // Don't respond to the group if we don't have a bot response - they might not be talking to us!
-            res.json({
-                status: "success",
-                action: "none",
-                message: "No action taken, we don't think we were the intended recipient of the message from the group."
-            });
-            return;
-        }
-        console.log({
-            uuid: uuid,
-            type: "receivedGroupMessage",
-            payload: req.body
-        });
-        bot.processMessage(req.body.text)
-            .then((responseParameters) => {
-                return bot.generateResponse(responseParameters);
-            })
-            .then((reply) => {
-                return bot.sendMessageToGroup(reply);
-            })
-            .then((result) => {
-                res.json({
-                    status: "success",
-                    action: "groupMessageSent"
-                });
-            })
-            .catch((err) => {
-                console.log({
-                    uuid: uuid,
-                    type: "error",
-                    error: err
-                });
-            });
-    } else {
-        console.log({
-            uuid: uuid,
-            type: "receivedDirectMessage",
-            payload: req.body
-        });
-        bot.processMessage(req.body.text)
-            .then((responseParameters) => {
-                return bot.generateResponse(responseParameters);
-            })
-            .then((reply) => {
-                return bot.sendDirectMessage(req.body.sender_id, reply);
-            })
-            .then((result) => {
-                res.json({
-                    status: "success",
-                    action: "directMessageSent"
-                });
-            })
-            .catch((err) => {
-                console.log({
-                    uuid: uuid,
-                    type: "error",
-                    error: err
-                });
-            });
-    }
+});
 
+app.post("/talk/directmessage", (req, res) => {
+    if (!req.body.sender_id && !req.body.text) {
+        res.json({
+            status: "error",
+            error: "No text or sender_id in request body. Is this a GroupMe direct message payload?"
+        });
+        res.end();
+    } else {
+        const conversationId = uuidV1();
+        pa.receiveDirectMessage(req.body, conversationId);
+        res.json({
+            status: "success",
+            conversationId: conversationId
+        });
+    }
 });
 
 app.listen(process.env.PORT);

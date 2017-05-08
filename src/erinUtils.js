@@ -3,7 +3,7 @@ const each = require("async").each;
 
 const franchises = require("./franchises");
 
-const processing = {
+const erinUtils = {
     identifyFranchiseFromMessage: (message) => {
         return new Promise((resolve, reject) => {
             const tokenizer = new natural.WordTokenizer();
@@ -24,4 +24,4 @@ const processing = {
     },
 };
 
-module.exports = processing;
+module.exports = erinUtils;
