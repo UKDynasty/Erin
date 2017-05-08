@@ -32,9 +32,9 @@ const processMessage = (message, conversationId) => {
                     resolve(parameters, conversationId);
                 })
         }
-        else if (message === "Hello" || message === "Good morning") {
+        else if (message.match(/help/i)) {
             let parameters = {
-                type: "greeting"
+                type: "help"
             };
             resolve(parameters, conversationId);
         } else {
@@ -64,16 +64,20 @@ const generateResponse = (parameters) => {
             }
             return "Sure. Here are the picks currently owned by them: " + parameters.picks.join(", ");
             break;
-        case "greeting":
-            const greetingResponses = [
-                "Hey there.",
-                "Hello.",
-                "Bonjour."
+        case "help":
+            const helpResponses = [
+                "There's no shame in asking for help. Ask me about who owns a rookie pick by saying something like 'Erin, who owns pick 1.08?', or ask what picks a franchise has by asking something like 'What rookie picks do the Seahawks have?'",
+                "Help, you say? Sure thing. Ask me about who owns a rookie pick by saying something like 'Erin, who owns pick 1.08?', or ask what picks a franchise has by asking something like 'What rookie picks do the Seahawks have?'"
             ];
-            return greetingResponses[Math.floor(Math.random()*greetingResponses.length)];
+            return helpResponses[Math.floor(Math.random()*helpResponses.length)];
             break;
         case "confusion":
-            return "I'm sorry, I don't know what you're asking me.";
+            const confusionResponses = [
+                "I'm sorry, I don't know what you're asking me. Do ask for help!",
+                "Apologies, I've got no idea what you're talking about. Ask for help if you're stuck.",
+                "Pardon? I really don't know what you mean, sorry."
+            ];
+            return
             break;
     }
 };
