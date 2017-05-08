@@ -59,6 +59,11 @@ const processMessage = (message, conversationId) => {
                 type: "love"
             };
             resolve(parameters, conversationId);
+        }  else if (message.match(/hello|hey|good morning|good afternoon|good evening/i)) {
+            let parameters = {
+                type: "greeting"
+            };
+            resolve(parameters, conversationId);
         } else {
             let parameters = {
                 type: "confusion"
@@ -119,6 +124,13 @@ const generateResponse = (parameters) => {
                 "Well, thanks. I like you, in your own special way."
             ];
             return loveResponses[Math.floor(Math.random()*loveResponses.length)];
+        case "greeting":
+            const greetingResponses = [
+                "Hey there.",
+                "Hello.",
+                "G'day."
+            ];
+            return greetingResponses[Math.floor(Math.random()*greetingResponses.length)];
         case "confusion":
             const confusionResponses = [
                 "I'm sorry, I don't know what you're asking me.",
