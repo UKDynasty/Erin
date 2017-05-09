@@ -4,7 +4,7 @@ const identifyFranchiseFromMessage = require("./erinUtils").identifyFranchiseFro
 
 const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
-        if (message.match(/pick\s/i)) {
+        if (message.match(/\bpick\b/i)) {
             let pickString = message.match(/(\d*)\.(\d*)/);
             let pick = ((pickString[1] - 1) * 12) + parseInt(pickString[2], 10);
             return picks.whoOwnsPick(pick)
@@ -22,7 +22,7 @@ const processMessage = (message, conversationId) => {
                     resolve(parameters, conversationId);
                 });
         }
-        else if (message.match(/picks\s/i)) {
+        else if (message.match(/\bpicks\b/i)) {
             return identifyFranchiseFromMessage(message)
                 .then((franchiseIdentificationArray) => {
                     if (franchiseIdentificationArray.length > 1) {
@@ -48,7 +48,7 @@ const processMessage = (message, conversationId) => {
                     };
                     resolve(parameters, conversationId);
                 });
-        } else if (message.match(/help/i)) {
+        } else if (message.match(/\bhelp\b/i)) {
             let parameters = {
                 type: "help"
             };
