@@ -11,12 +11,18 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.4.0",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "google-spreadsheet": "^2.0.3",
     "natural": "^0.5.1",
+    "node-fetch": "^1.6.3",
+    "redis": "^2.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "jslint": "^0.10.3"
   }
 }

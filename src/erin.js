@@ -135,8 +135,11 @@ const generateResponse = (parameters) => {
                 "G'day."
             ];
             return greetingResponses[Math.floor(Math.random()*greetingResponses.length)];
-        case "bucs-mascot":
-            return "It's a raccoon, you stupid bitch. T-Rac.";
+        case "newDraftPicksMade":
+            const picksText = parameters.newPicks.map((pick) => {
+                
+            }).join("\n\n");
+            break;
         case "confusion":
             const confusionResponses = [
                 "I'm sorry, I don't know what you're asking me.",
@@ -175,7 +178,8 @@ const erin = {
                     conversationId: conversationId
                 };
             })
-    }
+    },
+
 };
 
 module.exports = erin;

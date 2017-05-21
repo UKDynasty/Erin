@@ -61,6 +61,10 @@ const pa = {
                 });
         });
     },
+    // Send a direct message to a specific user (returns a promise, wrapper around sendDirectMessage)
+    sendDirectMessage: (userId, message) => {
+        return sendDirectMessage(userId, message);
+    },
     // Receive a GroupMe message JSON payload, and
     receiveGroupMessage: (message, conversationId) => {
         if (message.name && message.name === process.env.GROUPCHAT_BOT_NAME) {
