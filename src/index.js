@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const uuidV1 = require('uuid/v1');
 const pa = require("./pa");
+const draftWatcher = require("./draftWatcher");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -57,3 +58,7 @@ app.post("/talk/directmessage", (req, res) => {
 
 app.listen(process.env.PORT);
 console.log("started listening for messages");
+
+setInterval(function() {
+    draftWatcher();
+}, 60000);
