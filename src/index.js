@@ -2,11 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const uuidV1 = require('uuid/v1');
 const pa = require("./pa");
-const draftWatcher = require("./draftWatcher");
-
-setInterval(function() {
-    draftWatcher();
-}, 60000);
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));

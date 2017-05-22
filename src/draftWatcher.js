@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fetch = require("node-fetch");
 const client = require('redis').createClient(process.env.REDIS_URL);
 const pa = require("./pa");
@@ -118,4 +120,4 @@ const draftWatcher = () => {
         .catch(err => console.log(err));
 };
 
-module.exports = draftWatcher;
+draftWatcher();
