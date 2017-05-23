@@ -6,7 +6,6 @@ const draftWatcher = require("./draftWatcher");
 
 draftWatcher();
 setInterval(() => {
-    console.log("Checking for new draft picks");
     draftWatcher()
 }, 60000
 );
