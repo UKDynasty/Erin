@@ -120,4 +120,4 @@ const draftWatcher = () => {
         .catch(err => console.log(err));
 };
 
-draftWatcher();
+module.exports = draftWatcher;
