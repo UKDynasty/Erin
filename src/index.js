@@ -7,7 +7,7 @@ const draftWatcher = require("./draftWatcher");
 draftWatcher();
 setInterval(() => {
     draftWatcher()
-}, 60000
+}, 10000
 );
 
 const app = express();
