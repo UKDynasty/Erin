@@ -61,6 +61,10 @@ const pa = {
                 });
         });
     },
+    // Send a group message (returns a promise, wrapper around sendDirectMessage)
+    sendMessageToGroup: (message) => {
+        return sendDirectMessage(message);
+    },
     // Send a direct message to a specific user (returns a promise, wrapper around sendDirectMessage)
     sendDirectMessage: (userId, message) => {
         return sendDirectMessage(userId, message);

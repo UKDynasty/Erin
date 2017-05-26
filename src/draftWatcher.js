@@ -19,7 +19,7 @@ const updateLatestReportedPickTimestamp = (timestamp) => {
 };
 
 const fetchPicks = () => {
-    const url = "http://www73.myfantasyleague.com/2017/export?TYPE=draftResults&L=48002&JSON=1";
+    const url = "http://www73.myfantasyleague.com/2017/export?TYPE=draftResults&L=61991&JSON=1";
     return fetch(url)
         .then(res => res.json())
         .then(json => json.draftResults.draftUnit.draftPick)
@@ -52,11 +52,13 @@ const filterOutPicksAlreadyReported = (picks) => {
  * @returns {Promise}
  */
 const checkForNewDraftPicks = () => {
+    console.log("Checking for new draft picks")
     return fetchPicks()
         .then(picks => filterOutUnmadePicks(picks))
         .then(madePicks => filterOutPicksAlreadyReported(madePicks))
         .then(newPicks => {
             if (newPicks.length > 0) {
+                console.log("There are new picks!", newPicks);
                 updateLatestReportedPickTimestamp(newPicks.slice(-1)[0].timestamp)
             }
             return newPicks;
@@ -112,7 +114,7 @@ const draftWatcher = () => {
                                 playersInfo[pick.player].team
                             );
                         });
-                        pa.sendDirectMessage("36266918", picksText.join("\n\n"));
+                        pa.sendMessageToGroup(picksText.join("\n\n"));
                     });
 
             }
