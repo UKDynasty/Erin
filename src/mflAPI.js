@@ -27,10 +27,16 @@ const mflAPI = {
         return fetch(url)
             .then(response => response.json())
             .then(players => {
-                return players.players.player.reduce((obj, val) => {
-                    obj[val.id] = val;
-                    return obj;
-                }, {});
+                if (Array.isArray(players.players.player)) {
+                    return players.players.player.reduce((obj, val) => {
+                        obj[val.id] = val;
+                        return obj;
+                    }, {});
+                } else {
+                    let ret = {};
+                    ret[players.players.player.id] = players.players.player;
+                    return ret;
+                }
             });
     }
 };
