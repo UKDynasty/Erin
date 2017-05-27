@@ -52,7 +52,6 @@ const filterOutPicksAlreadyReported = (picks) => {
  * @returns {Promise}
  */
 const checkForNewDraftPicks = () => {
-    console.log("Checking for new draft picks")
     return fetchPicks()
         .then(picks => filterOutUnmadePicks(picks))
         .then(madePicks => filterOutPicksAlreadyReported(madePicks))
@@ -114,7 +113,8 @@ const draftWatcher = () => {
                                 playersInfo[pick.player].team
                             );
                         });
-                        pa.sendMessageToGroup(picksText.join("\n\n"));
+                        let text = picksText.join("\n\n");
+                        pa.sendMessageToGroup(text);
                     });
 
             }
