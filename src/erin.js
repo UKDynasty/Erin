@@ -164,7 +164,7 @@ const generateResponse = (parameters) => {
             return confusionResponses[Math.floor(Math.random()*confusionResponses.length)];
             break;
         case "scores":
-            return "Here's the current scoreboard:\n\n" + parameters.matchupScores.join("\n");
+            return parameters.matchupScores.join("\n\n");
     }
 };
 

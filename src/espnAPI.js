@@ -19,15 +19,15 @@ const generateParamsQueryString = (params) => {
 const espnAPI = {
     scoreboard: () => {
         return fetch(generateApiUrl("scoreboard", {}))
-            .then(response => response.json())
-            .then(json => {
+            .then((response) => response.json())
+            .then((json) => {
                 return json.scoreboard.matchups;
             });
     },
     matchupToString: (matchup) => {
         let homeTeam = matchup.teams[0];
         let awayTeam = matchup.teams[1];
-        return `${awayTeam.team.teamLocation} ${awayTeam.team.teamNickname} ${awayTeam.score} v ${homeTeam.team.teamLocation} ${homeTeam.team.teamNickname} ${homeTeam.score}`;
+        return `${awayTeam.team.teamLocation} ${awayTeam.team.teamNickname} ${awayTeam.score}\n${homeTeam.team.teamLocation} ${homeTeam.team.teamNickname} ${homeTeam.score}`;
     }
 };
 
