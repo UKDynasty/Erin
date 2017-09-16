@@ -30,3 +30,5 @@ const espnAPI = {
         return `${awayTeam.team.teamLocation} ${awayTeam.team.teamNickname} ${awayTeam.score} v ${homeTeam.team.teamLocation} ${homeTeam.team.teamNickname} ${homeTeam.score}`;
     }
 };
+
+module.exports = espnAPI;
