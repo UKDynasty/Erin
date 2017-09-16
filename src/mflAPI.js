@@ -38,7 +38,25 @@ const mflAPI = {
                     return ret;
                 }
             });
+    },
+    draftResults: (leagueId, round) => {
+        if (!(leagueId > 0)) {
+            return new Error("No league ID provided.");
+        }
+        let params = {
+            "TYPE": "draftResults",
+            "L": leagueId
+        };
+        let url = generateApiUrl(params);
+        return fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                return json.draftResults.draftUnit.draftPick;
+            })
     }
 };
 
+mflAPI.draftResults(48002)
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
 module.exports = mflAPI;

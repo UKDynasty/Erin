@@ -1,6 +1,7 @@
 const picks = require("./picks");
 const franchises = require("./franchises");
 const identifyFranchiseFromMessage = require("./erinUtils").identifyFranchiseFromMessage;
+const espnAPI = require("espnAPI");
 
 const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
@@ -53,7 +54,21 @@ const processMessage = (message, conversationId) => {
                 type: "help"
             };
             resolve(parameters, conversationId);
-        }  else if (message.match(/love you|like you/i)) {
+        } else if (message.match(/\bscores\b/i) || message.match(/\bscoreboard\b/i)) {
+            espnAPI.scoreboard()
+                .then(matchups => {
+                    return matchups.map(matchup => {
+                        return espnAPI.matchupToString(matchup);
+                    })
+                })
+                .then(matchupScores => {
+                    let parameters = {
+                        type: "scores",
+                        matchupScores: matchupScores
+                    };
+                    resolve(parameters, conversationId);
+                });
+        } else if (message.match(/love you|like you/i)) {
             let parameters = {
                 type: "love"
             };
@@ -148,6 +163,9 @@ const generateResponse = (parameters) => {
             ];
             return confusionResponses[Math.floor(Math.random()*confusionResponses.length)];
             break;
+        case "scores":
+            const scoresResponse = "Here's the current scoreboard:\n\n" +
+                parameters.matchupScores.join("\n");
     }
 };
 
