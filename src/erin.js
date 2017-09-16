@@ -1,7 +1,7 @@
 const picks = require("./picks");
 const franchises = require("./franchises");
 const identifyFranchiseFromMessage = require("./erinUtils").identifyFranchiseFromMessage;
-const espnAPI = require("espnAPI");
+const espnAPI = require("./espnAPI");
 
 const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
