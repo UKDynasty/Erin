@@ -147,7 +147,7 @@ const generateResponse = (parameters) => {
             if (!parameters.picks || !parameters.franchiseName) {
                 return new Error("Must pass franchiseName and picks in parameters.");
             }
-            const concatenatedPickText = parameters.picks.join(", ");
+            const concatenatedPickText = parameters.picks.join("\n");
             const picksResponses = [
                 "Here are the picks currently owned by the " + parameters.franchiseName + ": " + concatenatedPickText + ".",
                 "The picks currently owned by the " + parameters.franchiseName + " are as follows: " + concatenatedPickText + "."
