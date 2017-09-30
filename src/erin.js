@@ -164,7 +164,6 @@ const generateResponse = (parameters) => {
             return helpResponses[Math.floor(Math.random()*helpResponses.length)];
             break;
         case "picksConfusion":
-            console.log(parameters);
             const picksConfusionResponses = [
                 "I'm not sure which franchise you're asking about. I'm not a mind reader!",
                 "Sorry, I don't know which franchise you're asking about. I could guess, but that would be less than useful."

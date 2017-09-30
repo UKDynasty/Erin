@@ -56,7 +56,4 @@ const mflAPI = {
     }
 };
 
-mflAPI.draftResults(48002)
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
 module.exports = mflAPI;
