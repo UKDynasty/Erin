@@ -67,8 +67,11 @@ const processMessage = (message, conversationId) => {
                 })
                 .then(espnRosterData => {
                     return espnRosterData.slots.map(playerData => {
-                        console.log(playerData.player);
-                        return playerData.player.firstName + " " + playerData.player.lastName;
+                        if (!(playerData.player.hasOwnProperty("firstName") && playerData.player.hasOwnProperty("lastName"))) {
+                            return "";
+                        } else {
+                            return playerData.player.firstName + " " + playerData.player.lastName;
+                        }
                     });
                 })
                 .then(roster => {
