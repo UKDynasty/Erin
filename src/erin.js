@@ -66,6 +66,7 @@ const processMessage = (message, conversationId) => {
                     return espnAPI.roster(franchiseInfo.espnFranchiseId)
                 })
                 .then(espnRosterData => {
+                    console.log(espnRosterData);
                     return espnRosterData.slots.map(player => {
                         return player.firstName + " " + player.lastName;
                     });
