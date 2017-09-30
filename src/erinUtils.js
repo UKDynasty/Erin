@@ -36,7 +36,7 @@ const erinUtils = {
             return franchise.canonical === canonicalFranchiseName;
         });
         return (matching.length === 1) ? matching[0] : false;
-
+    }
 };
 
 module.exports = erinUtils;
