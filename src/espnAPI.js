@@ -24,6 +24,15 @@ const espnAPI = {
                 return json.scoreboard.matchups;
             });
     },
+    roster: (franchiseId) => {
+        return fetch(generateApiUrl("rosterInfo", {
+            "teamIds": franchiseId
+        }))
+            .then(response => response.json())
+            .then(json => {
+                return json.leagueRosters.teams[0]
+            });
+    },
     matchupToString: (matchup) => {
         let homeTeam = matchup.teams[0];
         let awayTeam = matchup.teams[1];

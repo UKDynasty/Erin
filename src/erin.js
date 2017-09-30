@@ -2,6 +2,7 @@ const picks = require("./picks");
 const franchises = require("./franchises");
 const identifyFranchiseFromMessage = require("./erinUtils").identifyFranchiseFromMessage;
 const espnAPI = require("./espnAPI");
+const erinUtils = require("./erinUtils");
 
 const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
@@ -40,6 +41,39 @@ const processMessage = (message, conversationId) => {
                         type: "picks",
                         picks: picksData.picks,
                         franchiseName: picksData.franchiseName
+                    };
+                    resolve(parameters, conversationId);
+                })
+                .catch((err) => {
+                    let parameters = {
+                        type: "picksConfusion"
+                    };
+                    resolve(parameters, conversationId);
+                });
+        } else if (message.match(/\broster\b/i)) {
+            return identifyFranchiseFromMessage(message)
+                .then((franchiseIdentificationArray) => {
+                    if (franchiseIdentificationArray.length > 1) {
+                        throw new Error();
+                    } else {
+                        return franchiseIdentificationArray[0];
+                    }
+                })
+                .then((franchiseName) => {
+                    return erinUtils.getFranchiseInfoFromCanonicalName(franchiseName);
+                })
+                .then(franchiseInfo => {
+                    return espnAPI.roster(franchiseInfo.espnFranchiseId)
+                })
+                .then(espnRosterData => {
+                    return espnRosterData.slots.map(player => {
+                        return player.firstName + " " + player.lastName;
+                    });
+                })
+                .then(roster => {
+                    let parameters = {
+                        type: "roster",
+                        roster: roster
                     };
                     resolve(parameters, conversationId);
                 })
@@ -115,6 +149,8 @@ const generateResponse = (parameters) => {
             ];
             return picksResponses[Math.floor(Math.random()*picksResponses.length)];
             break;
+        case "roster":
+            return parameters.roster.join("\n");
         case "help":
             const helpResponses = [
                 "There's no shame in asking for help. Ask me about who owns a rookie pick by saying something like 'Erin, who owns pick 1.08?', or ask what picks a franchise has by asking something like 'What rookie picks do the Seahawks have?'",
