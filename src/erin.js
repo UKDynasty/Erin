@@ -71,7 +71,7 @@ const processMessage = (message, conversationId) => {
                             return player.hasOwnProperty("player")
                         })
                         .map(playerData => {
-                            return playerData.player.firstName + " " + playerData.player.lastName;
+                            return playerData.player.firstName + " " + playerData.player.lastName + ", " + espnAPI.positionIds[parseInt(playerData.player.defaultPositionId, 10)];
                         });
                 })
                 .then(roster => {
