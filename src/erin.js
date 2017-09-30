@@ -67,7 +67,7 @@ const processMessage = (message, conversationId) => {
                 })
                 .then(espnRosterData => {
                     return espnRosterData.slots.map(playerData => {
-                        return playerData.player.firstName + " " + playerData.player.lastName + ", " + espnAPI.positionIds[parseInt(playerData.player.defaultPositionId, 10)];
+                        return playerData.player.firstName + " " + playerData.player.lastName;
                     });
                 })
                 .then(roster => {
