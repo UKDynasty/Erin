@@ -66,14 +66,13 @@ const processMessage = (message, conversationId) => {
                     return espnAPI.roster(franchiseInfo.espnFranchiseId)
                 })
                 .then(espnRosterData => {
-                    return espnRosterData.slots.map(playerData => {
-                        console.log(playerData);
-                        // if (!(playerData.player.hasOwnProperty("firstName") && playerData.player.hasOwnProperty("lastName"))) {
-                        //     return "";
-                        // } else {
-                        //     return playerData.player.firstName + " " + playerData.player.lastName;
-                        // }
-                    });
+                    return espnRosterData.slots
+                        .filter(player => {
+                            return player.hasOwnProperty("player")
+                        })
+                        .map(playerData => {
+                            return playerData.player.firstName + " " + playerData.player.lastName;
+                        });
                 })
                 .then(roster => {
                     let parameters = {
