@@ -33,7 +33,7 @@ const processMessage = (message, conversationId) => {
                     }
                 })
                 .then((franchiseName) => {
-                    return picks.picksForFranchise(franchiseName);
+                    return picks.preDraftPicksForFranchise(franchiseName);
                 })
                 .then((picksData) => {
                     let parameters = {
