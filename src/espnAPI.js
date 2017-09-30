@@ -17,6 +17,9 @@ const generateParamsQueryString = (params) => {
 };
 
 const espnAPI = {
+    positionsIds: [
+        "QB", "RB", "WR", "TE"
+    ],
     scoreboard: () => {
         return fetch(generateApiUrl("scoreboard", {}))
             .then((response) => response.json())
