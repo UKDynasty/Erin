@@ -79,7 +79,8 @@ const processMessage = (message, conversationId) => {
                 })
                 .catch((err) => {
                     let parameters = {
-                        type: "picksConfusion"
+                        type: "picksConfusion",
+                        err: err
                     };
                     resolve(parameters, conversationId);
                 });
@@ -166,6 +167,7 @@ const generateResponse = (parameters) => {
             return picksConfusionResponses[Math.floor(Math.random()*picksConfusionResponses.length)];
             break;
         case "pickConfusion":
+            console.log(parameters);
             const pickConfusionResponses = [
                 "You're asking me who owns a pick? Sorry, I don't quite understand, sorry. Make sure you tell me the pick like this: '2.06' or '3.11'",
                 "I don't quite know what you mean, but I know you want to know about a pick. Maybe I'm telepathic."
