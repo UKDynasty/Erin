@@ -70,14 +70,59 @@ const processMessage = (message, conversationId) => {
                         .filter(player => {
                             return player.hasOwnProperty("player")
                         })
+                        .sort((a, b) => {
+                            return a.player.defaultPositionId - b.player.defaultPositionId;
+                        })
                         .map(playerData => {
-                            return playerData.player.firstName + " " + playerData.player.lastName;
-                        });
+                            return playerData.player.firstName + " " + playerData.player.lastName + ", " + espnAPI.positionsIds[playerData.player.defaultPositionId-1];
+                        })
                 })
                 .then(roster => {
                     let parameters = {
                         type: "roster",
                         roster: roster
+                    };
+                    resolve(parameters, conversationId);
+                })
+                .catch((err) => {
+                    let parameters = {
+                        type: "picksConfusion",
+                        err: err
+                    };
+                    resolve(parameters, conversationId);
+                });
+        } else if (message.match(/\blineup\b/i)) {
+            return identifyFranchiseFromMessage(message)
+                .then((franchiseIdentificationArray) => {
+                    if (franchiseIdentificationArray.length > 1) {
+                        throw new Error();
+                    } else {
+                        return franchiseIdentificationArray[0];
+                    }
+                })
+                .then((franchiseName) => {
+                    return erinUtils.getFranchiseInfoFromCanonicalName(franchiseName);
+                })
+                .then(franchiseInfo => {
+                    return espnAPI.roster(franchiseInfo.espnFranchiseId)
+                })
+                .then(espnRosterData => {
+                    return espnRosterData.slots
+                        .filter(player => {
+                            return player.hasOwnProperty("player")
+                        })
+                        .slice(0,9)
+                        .sort((a, b) => {
+                            return a.player.defaultPositionId - b.player.defaultPositionId;
+                        })
+                        .map(playerData => {
+                            return playerData.player.firstName + " " + playerData.player.lastName + ", " + espnAPI.positionsIds[playerData.player.defaultPositionId-1];
+                        })
+                })
+                .then(roster => {
+                    let parameters = {
+                        type: "lineup",
+                        lineup: roster
                     };
                     resolve(parameters, conversationId);
                 })
@@ -156,6 +201,8 @@ const generateResponse = (parameters) => {
             break;
         case "roster":
             return parameters.roster.join("\n");
+        case "lineup":
+            return parameters.lineup.join("\n");
         case "help":
             const helpResponses = [
                 "There's no shame in asking for help. Ask me about who owns a rookie pick by saying something like 'Erin, who owns pick 1.08?', or ask what picks a franchise has by asking something like 'What rookie picks do the Seahawks have?'",
