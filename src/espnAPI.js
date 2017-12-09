@@ -39,6 +39,10 @@ const espnAPI = {
     matchupToString: (matchup) => {
         let homeTeam = matchup.teams[0];
         let awayTeam = matchup.teams[1];
+        if (!awayTeam) {
+            // Team is on bye
+            return `Bye: ${homeTeam.team.teamLocation} ${awayTeam.team.teamNickname}`;
+        }
         return `${awayTeam.team.teamLocation} ${awayTeam.team.teamNickname} ${awayTeam.score}\n${homeTeam.team.teamLocation} ${homeTeam.team.teamNickname} ${homeTeam.score}`;
     }
 };
