@@ -6,23 +6,36 @@ const erinUtils = require("./erinUtils");
 
 const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
-        if (message.match(/\bpick\b/i)) {
+        if (message.match(/\bsheet\b/i)) {
+            let parameters = {
+                type: "spreadsheet-link"
+            };
+            resolve(parameters, conversationId);
+        }
+        else if (message.match(/\bpick\b/i)) {
             let pickString = message.match(/(\d+)\.(\d+)/);
-            let pick = ((pickString[1] - 1) * 12) + parseInt(pickString[2], 10);
-            return picks.whoOwnsPick(pick)
-                .then((owner) => {
-                    let parameters = {
-                        type: "pick",
-                        franchiseName: owner
-                    };
-                    return resolve(parameters, conversationId);
-                })
-                .catch((err) => {
-                    let parameters = {
-                        type: "pickConfusion"
-                    };
-                    resolve(parameters, conversationId);
-                });
+            try {
+                let pick = ((pickString[1] - 1) * 12) + parseInt(pickString[2], 10);
+                return picks.whoOwnsPick(pick)
+                    .then((owner) => {
+                        let parameters = {
+                            type: "pick",
+                            franchiseName: owner
+                        };
+                        return resolve(parameters, conversationId);
+                    })
+                    .catch((err) => {
+                        let parameters = {
+                            type: "pickConfusion"
+                        };
+                        resolve(parameters, conversationId);
+                    });
+            } catch(e) {
+                let parameters = {
+                    type: "pickConfusion"
+                };
+                resolve(parameters, conversationId);
+            }
         }
         else if (message.match(/\bpicks\b/i)) {
             return identifyFranchiseFromMessage(message)
@@ -136,11 +149,6 @@ const processMessage = (message, conversationId) => {
         } else if (message.match(/\bhelp\b/i)) {
             let parameters = {
                 type: "help"
-            };
-            resolve(parameters, conversationId);
-        } else if (message.match(/\bsheet\b/i)) {
-            let parameters = {
-                type: "spreadsheet-link"
             };
             resolve(parameters, conversationId);
         } else if (message.match(/\bscores\b/i) || message.match(/\bscoreboard\b/i)) {
