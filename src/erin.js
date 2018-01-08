@@ -138,6 +138,11 @@ const processMessage = (message, conversationId) => {
                 type: "help"
             };
             resolve(parameters, conversationId);
+        } else if (message.match(/\bsheet\b/i)) {
+            let parameters = {
+                type: "spreadsheet-link"
+            };
+            resolve(parameters, conversationId);
         } else if (message.match(/\bscores\b/i) || message.match(/\bscoreboard\b/i)) {
             espnAPI.scoreboard()
                 .then(matchups => {
@@ -201,6 +206,8 @@ const generateResponse = (parameters) => {
             break;
         case "roster":
             return parameters.roster.join("\n");
+        case "spreadsheet-link":
+            return "Rookie picks spreadsheet: http://bit.do/UKDynastyLeagueFutureDraftPickTrades";
         case "lineup":
             return parameters.lineup.join("\n");
         case "help":
