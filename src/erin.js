@@ -6,7 +6,7 @@ const erinUtils = require("./erinUtils");
 
 const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
-        if (message.match(/\bsheet\b/i)) {
+        if (message.match(/\bsheet\b/i) || message.match(/\bspreadsheet\b/i)) {
             let parameters = {
                 type: "spreadsheet-link"
             };
