@@ -8,7 +8,25 @@ const processMessage = (message, conversationId) => {
     return new Promise((resolve, reject) => {
         if (message.match(/\bsheet\b/i) || message.match(/\bspreadsheet\b/i)) {
             let parameters = {
-                type: "spreadsheet-link"
+                type: "simple-link",
+                link: "http://bit.do/UKDynastyLeagueFutureDraftPickTrades",
+                title: "Rookie pick trades spreadsheet"
+            };
+            resolve(parameters, conversationId);
+        }
+        else if (message.match(/\bbylaws\b/i) || message.match(/\brules\b/i)) {
+            let parameters = {
+                type: "simple-link",
+                link: "http://www.ukdynasty.com/bylaws",
+                title: "League bylaws"
+            };
+            resolve(parameters, conversationId);
+        }
+        else if (message.match(/\brecords\b/i) || message.match(/\bhistory\b/i)) {
+            let parameters = {
+                type: "simple-link",
+                link: "http://www.ukdynasty.com/history",
+                title: "History and records"
             };
             resolve(parameters, conversationId);
         }
@@ -214,8 +232,8 @@ const generateResponse = (parameters) => {
             break;
         case "roster":
             return parameters.roster.join("\n");
-        case "spreadsheet-link":
-            return "Rookie picks spreadsheet: http://bit.do/UKDynastyLeagueFutureDraftPickTrades";
+        case "simple-link":
+            return parameters.title + ": " + parameters.link;
         case "lineup":
             return parameters.lineup.join("\n");
         case "help":
