@@ -34,7 +34,7 @@ const processMessage = (message, conversationId) => {
                     }
                 })
                 .then((franchiseName) => {
-                    return picks.preDraftPicksForFranchise(franchiseName);
+                    return picks.picksForFranchise(franchiseName);
                 })
                 .then((picksData) => {
                     let parameters = {
