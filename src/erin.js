@@ -207,8 +207,8 @@ const generateResponse = (parameters) => {
             }
             const concatenatedPickText = parameters.picks.join("\n");
             const picksResponses = [
-                "Here are the picks currently owned by the " + parameters.franchiseName + ": " + concatenatedPickText + ".",
-                "The picks currently owned by the " + parameters.franchiseName + " are as follows: " + concatenatedPickText + "."
+                "Here are the picks currently owned by the " + parameters.franchiseName + ": \n" + concatenatedPickText + ".",
+                "The picks currently owned by the " + parameters.franchiseName + " are as follows: \n" + concatenatedPickText + "."
             ];
             return picksResponses[Math.floor(Math.random()*picksResponses.length)];
             break;
